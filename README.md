@@ -205,3 +205,20 @@ These debug images are __super helpful__ when:
 - Checking why a digit was misclassified
 
 - Planning to switch from KNN → CNN
+
+
+
+# 🎥 Solving Demo
+
+<p align="center"> <img src="demo.gif" width="450"/> </p>
+
+# 📌 Future Improvements
+
+This project already works well, but there are several high-impact upgrades that can significantly boost accuracy, speed, and real-world usability:
+  - Improving character recognition 
+  - Replacing KNN with CNN
+  - Add Tesseract OCR
+  - Deploy with streamlit
+  - Mobile Camera Capture
+  
+
