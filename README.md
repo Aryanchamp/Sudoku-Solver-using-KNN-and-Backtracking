@@ -60,7 +60,6 @@ Visual-Sudoku-Solver/
 ```
 
 
----
 
 ---
 
@@ -99,23 +98,10 @@ This model is lightweight, fast, and works well for clean digit crops.
 
 ---
 
-# 🏞️ Image Processing Pipeline (Recommended Images)
+# 🏞️ Image Processing Pipeline
 
-Place the following images in your `sample_images/` folder for documentation:
 
-| Step | Description | Filename |
-|------|-------------|----------|
-| 1 | Original Sudoku image | step1_original.jpg |
-| 2 | Detected grid contour | step2_contour.jpg |
-| 3 | Warped + thresholded grid | step3_warped.jpg |
-| 4 | Extracted 9×9 cells | step4_cells.jpg |
-| 5 | Raw digit ROI | step5_roi.jpg |
-| 6 | Normalized 28×28 digit | step6_final28x28.jpg |
-
-### 📌 Insert this block into your README after adding images:
-
-```markdown
-## 🔍 Image Processing Pipeline
+## 🔍 Image Processing
 
 <p align="center">
   <img src="png1.png" width="260" style="margin: 10px;"/>
@@ -129,6 +115,93 @@ Place the following images in your `sample_images/` folder for documentation:
   <img src="Single_contour.png" width="260" style="margin: 10px;"/>
 </p>
 
-```
 
 ---
+
+
+# ▶️ How to Run
+1️⃣ Install Dependencies
+Run the following command to install all required libraries:
+```
+pip install numpy opencv-python joblib tensorflow scikit-learn
+```
+2️⃣ (Optional) Retrain the KNN Model
+
+If you want to recreate the model:
+```
+python Knn_Train.py
+```
+This will train the MNIST-based KNN classifier and save:
+```
+KNN.sav
+```
+3️⃣ Run the Sudoku Solver
+
+Just execute:
+```
+python main.py
+```
+
+This launches the full Tkinter GUI:
+
+- Load Sudoku from image
+
+- Detect digits
+
+- Visualize solving steps
+
+- Adjust speed
+
+- Toggle edit mode
+
+- Clear/reset puzzle
+
+---
+
+#### ⚠️ Important Notes
+
+- Make sure KNN.sav is in the same directory as main.py
+
+- If loading an image fails, check that it is well-lit and clear
+
+- Debug crops are saved in debug_cells/ for troubleshooting
+
+# 🧪 Digit Recognition Debugging
+
+To help analyze recognition errors, every cell processed during image extraction is saved into the ``` debug_cells/``` folder.
+
+Each file follows this naming pattern:
+```
+cell_{row}_{col}_pred_{digit}_conf_{value}.jpg
+```
+🔍 Examples:
+
+``` cell_1_4_pred_7_conf_0.91.jpg ``` → Predicted digit 7 with 91% confidence
+
+```cell_3_2_pred_0_conf_1.00_REASON_Too_few_pixels.jpg ``` → Marked empty due to weak ROI
+
+```cell_5_8_pred_0_conf_1.00_REASON_Bad_aspect_ratio.jpg ```→ Invalid shape for a digit
+
+✔ Reasons logged include:
+
+- Low confidence prediction
+
+- Too few non-zero pixels (weak digit)
+
+- Bad aspect ratio (noise blob)
+
+- Empty ROI
+
+- No contour found
+
+- Contour too small
+
+These debug images are __super helpful__ when:
+
+- Improving preprocessing
+
+- Tweaking thresholds
+
+- Checking why a digit was misclassified
+
+- Planning to switch from KNN → CNN
